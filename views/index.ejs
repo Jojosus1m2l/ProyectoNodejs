@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  <meta name="description" content="Sistema de Gestión · Productos, clientes y proveedores con Node.js, Express y MySQL." />
+  <title>Sistema de Gestión | Productos, Clientes y Proveedores</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Crect%20width='24'%20height='24'%20rx='4'%20fill='%2300247d'/%3E%3Cpath%20d='M7%207h10v10H7zM7%2012h10M12%207v10'%20stroke='white'%20stroke-width='1.5'%20fill='none'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/vendor/roboto/roboto.css" />
+  <link rel="stylesheet" href="/vendor/fontawesome/css/all.min.css" />
+  <link rel="stylesheet" href="/stylesheets/institucional.css" />
+  <link rel="stylesheet" href="/stylesheets/portada.css" />
+</head>
+
+<body class="sisalud" data-abrir-login="<%= typeof abrirLogin !== 'undefined' && abrirLogin ? 'true' : 'false' %>">
+
+  <!-- ===== BANDA SUPERIOR ===== -->
+  <div class="top-band">
+    <div class="top-band-inner">
+      <span><i class="fas fa-database"></i> Sistema de Gestión · Node.js + MySQL</span>
+      <span>
+        <i class="fas fa-code"></i> Express + EJS &nbsp;|&nbsp;
+        <i class="fas fa-server"></i> localhost:3002
+        <span class="demo-mark"> · Proyecto local</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- ===== HEADER INSTITUCIONAL ===== -->
+  <header class="header">
+    <div class="header-inner">
+      <a class="header-brand" href="/" aria-label="Sistema de Gestión, inicio">
+        <div class="brand-emblem">
+          <i class="fas fa-boxes"></i>
+        </div>
+        <div class="brand-info">
+          <div class="brand-title">Sistema de <span>Gestión</span></div>
+          <div class="brand-sub">Productos · Clientes · Proveedores</div>
+          <div class="brand-dep">Node.js + Express + MySQL</div>
+        </div>
+      </a>
+
+      <div class="flag-stripe-group" aria-hidden="true">
+        <div class="flag-stripe s-red"></div>
+        <div class="flag-stripe s-yellow"></div>
+        <div class="flag-stripe s-blue"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== NAV PRINCIPAL ===== -->
+  <nav class="main-nav" aria-label="Navegación principal">
+    <div class="nav-inner">
+      <ul class="nav-list">
+        <li><a href="#inicio" class="nav-item active"><i class="fas fa-home"></i> Inicio</a></li>
+        <li><a href="#funciones" class="nav-item"><i class="fas fa-th-list"></i> Funciones</a></li>
+        <li><a href="#acceso" class="nav-item"><i class="fas fa-users"></i> Acceso</a></li>
+        <li><a href="#contacto" class="nav-item"><i class="fas fa-phone"></i> Contacto</a></li>
+      </ul>
+      <div class="session-actions" id="navAcciones">
+        <button type="button" class="btn-ingresar" id="btnIngresar" data-auth="login">
+          <i class="fas fa-sign-in-alt"></i> Ingresar al Sistema
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="inicio">
+    <div class="hero-overlay"></div>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <i class="fas fa-shield-alt"></i> Sistema de Gestión · CRUD
+        </div>
+        <h1>Bienvenido al Sistema de<br />Gestión de Datos</h1>
+        <p>
+          Plataforma para administrar productos, clientes y proveedores.
+          Inicia sesión para consultar y mantener la información almacenada
+          en MySQL.
+        </p>
+        <div class="hero-actions">
+          <button type="button" class="btn-hero-primary" data-auth="login">
+            <i class="fas fa-sign-in-alt"></i> Ingresar al Sistema
+          </button>
+          <a href="#funciones" class="btn-hero-sec">
+            <i class="fas fa-info-circle"></i> Ver Funciones
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-box">
+          <i class="fas fa-cubes"></i>
+          <strong>3</strong>
+          <span>Módulos</span>
+        </div>
+        <div class="stat-box">
+          <i class="fas fa-file-code"></i>
+          <strong>11</strong>
+          <span>Vistas</span>
+        </div>
+        <div class="stat-box">
+          <i class="fas fa-code"></i>
+          <strong>4</strong>
+          <span>Controladores</span>
+        </div>
+        <div class="stat-box">
+          <i class="fas fa-database"></i>
+          <strong>Activo</strong>
+          <span>MySQL</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FUNCIONES ===== -->
+  <section class="section funciones" id="funciones">
+    <div class="section-inner">
+      <div class="section-title-wrap">
+        <h2 class="section-title">Funciones del Sistema</h2>
+        <div class="title-underline"></div>
+        <p class="section-desc">Módulos y capacidades del CRUD.</p>
+      </div>
+
+      <div class="cards-grid">
+        <article class="func-card">
+          <div class="fc-icon red"><i class="fas fa-box"></i></div>
+          <h3>Productos</h3>
+          <p>Consulta, agrega, edita y elimina los productos de la tienda. Cada producto tiene nombre y precio.</p>
+          <span class="func-badge activo"><i class="fas fa-check"></i> Activo</span>
+        </article>
+
+        <article class="func-card">
+          <div class="fc-icon blue"><i class="fas fa-users"></i></div>
+          <h3>Clientes</h3>
+          <p>Administra los datos de los clientes: nombre, teléfono y correo electrónico.</p>
+          <span class="func-badge activo"><i class="fas fa-check"></i> Activo</span>
+        </article>
+
+        <article class="func-card">
+          <div class="fc-icon yellow"><i class="fas fa-truck"></i></div>
+          <h3>Proveedores</h3>
+          <p>Gestiona la información de los proveedores y sus datos de contacto.</p>
+          <span class="func-badge activo"><i class="fas fa-check"></i> Activo</span>
+        </article>
+
+        <article class="func-card">
+          <div class="fc-icon red"><i class="fas fa-edit"></i></div>
+          <h3>Operaciones CRUD</h3>
+          <p>Listar, crear, editar y eliminar registros desde vistas EJS conectadas a MySQL.</p>
+          <span class="func-badge activo"><i class="fas fa-check"></i> Activo</span>
+        </article>
+
+        <article class="func-card">
+          <div class="fc-icon blue"><i class="fas fa-lock"></i></div>
+          <h3>Autenticación</h3>
+          <p>Inicio de sesión con usuario y contraseña, sesión de Express y validación contra la tabla login.</p>
+          <span class="func-badge activo"><i class="fas fa-check"></i> Activo</span>
+        </article>
+
+        <article class="func-card">
+          <div class="fc-icon yellow"><i class="fas fa-database"></i></div>
+          <h3>Base de Datos</h3>
+          <p>Persistencia en MySQL. El login y los listados requieren el servidor MySQL activo en localhost:3306.</p>
+          <span class="func-badge prox"><i class="fas fa-clock"></i> Requiere MySQL</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ACCESO ===== -->
+  <section class="section acceso bg-light" id="acceso">
+    <div class="section-inner">
+      <div class="section-title-wrap">
+        <h2 class="section-title">Acceso al Sistema</h2>
+        <div class="title-underline"></div>
+        <p class="section-desc">Inicia sesión para administrar los módulos. El acceso se valida contra la base de datos MySQL.</p>
+      </div>
+
+      <div class="access-grid">
+        <article class="access-card">
+          <div class="ac-header blue">
+            <i class="fas fa-box"></i>
+            <h3>Productos</h3>
+          </div>
+          <div class="ac-body">
+            <p>Consulta y administra el catálogo de productos de la tienda.</p>
+            <ul class="permisos">
+              <li class="si"><i class="fas fa-check"></i> Listar productos</li>
+              <li class="si"><i class="fas fa-check"></i> Agregar productos</li>
+              <li class="si"><i class="fas fa-check"></i> Editar productos</li>
+              <li class="si"><i class="fas fa-check"></i> Eliminar productos</li>
+            </ul>
+            <div class="ac-actions">
+              <button type="button" class="btn-acceder" data-auth="login">
+                <i class="fas fa-sign-in-alt"></i> Ingresar
+              </button>
+              <a href="/productos" class="btn-acceder-sec" style="text-decoration: none;">
+                <i class="fas fa-arrow-right"></i> Ver módulo
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="access-card destacado">
+          <div class="ribbon">Módulo</div>
+          <div class="ac-header red">
+            <i class="fas fa-users"></i>
+            <h3>Clientes</h3>
+          </div>
+          <div class="ac-body">
+            <p>Administra la información de los clientes registrados.</p>
+            <ul class="permisos">
+              <li class="si"><i class="fas fa-check"></i> Listar clientes</li>
+              <li class="si"><i class="fas fa-check"></i> Agregar clientes</li>
+              <li class="si"><i class="fas fa-check"></i> Editar clientes</li>
+              <li class="si"><i class="fas fa-check"></i> Eliminar clientes</li>
+            </ul>
+            <div class="ac-actions">
+              <button type="button" class="btn-acceder" data-auth="login">
+                <i class="fas fa-sign-in-alt"></i> Ingresar
+              </button>
+              <a href="/clientes" class="btn-acceder-sec" style="text-decoration: none;">
+                <i class="fas fa-arrow-right"></i> Ver módulo
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="access-card">
+          <div class="ac-header yellow">
+            <i class="fas fa-truck"></i>
+            <h3>Proveedores</h3>
+          </div>
+          <div class="ac-body">
+            <p>Gestiona los proveedores y su información de contacto.</p>
+            <ul class="permisos">
+              <li class="si"><i class="fas fa-check"></i> Listar proveedores</li>
+              <li class="si"><i class="fas fa-check"></i> Agregar proveedores</li>
+              <li class="si"><i class="fas fa-check"></i> Editar proveedores</li>
+              <li class="si"><i class="fas fa-check"></i> Eliminar proveedores</li>
+            </ul>
+            <div class="ac-actions">
+              <button type="button" class="btn-acceder" data-auth="login">
+                <i class="fas fa-sign-in-alt"></i> Ingresar
+              </button>
+              <a href="/proveedor" class="btn-acceder-sec" style="text-decoration: none;">
+                <i class="fas fa-arrow-right"></i> Ver módulo
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="acceso-nota">
+        <i class="fas fa-info-circle"></i>
+        <span>El inicio de sesión usa la tabla <strong>login</strong> de MySQL. Si el servidor no está activo, el modal mostrará el error de conexión.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TECNOLOGÍAS ===== -->
+  <section class="section municipios-sec" id="tecnologias">
+    <div class="section-inner">
+      <div class="section-title-wrap">
+        <h2 class="section-title">Tecnologías del Sistema</h2>
+        <div class="title-underline"></div>
+      </div>
+      <div class="mun-grid">
+        <div class="mun-tag"><i class="fab fa-node-js"></i> Node.js</div>
+        <div class="mun-tag"><i class="fas fa-server"></i> Express</div>
+        <div class="mun-tag"><i class="fas fa-database"></i> MySQL</div>
+        <div class="mun-tag"><i class="fas fa-code"></i> EJS</div>
+        <div class="mun-tag"><i class="fab fa-bootstrap"></i> Bootstrap</div>
+        <div class="mun-tag"><i class="fas fa-layer-group"></i> MVC</div>
+        <div class="mun-tag"><i class="fas fa-edit"></i> CRUD</div>
+        <div class="mun-tag"><i class="fas fa-lock"></i> Sesiones</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" id="contacto">
+    <div class="footer-inner">
+      <div class="footer-col brand-col">
+        <div class="footer-logo">
+          <i class="fas fa-boxes"></i>
+          <div>
+            <strong>Sistema de Gestión</strong>
+            <span>Productos · Clientes · Proveedores</span>
+          </div>
+        </div>
+        <p>Aplicación MVC desarrollada con Node.js, Express, MySQL y EJS. Proyecto local de demostración.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Módulos</h4>
+        <ul>
+          <li><a href="/productos"><i class="fas fa-angle-right"></i> Productos</a></li>
+          <li><a href="/clientes"><i class="fas fa-angle-right"></i> Clientes</a></li>
+          <li><a href="/proveedor"><i class="fas fa-angle-right"></i> Proveedores</a></li>
+          <li><a href="#funciones"><i class="fas fa-angle-right"></i> Funciones</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><i class="fas fa-server"></i> localhost:3002</li>
+          <li><i class="fas fa-database"></i> MySQL localhost:3306</li>
+          <li><i class="fas fa-code"></i> Node.js + Express</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Sistema de Gestión — Proyecto Node.js + MySQL. <strong>Demostración local.</strong></p>
+    </div>
+  </footer>
+
+  <!-- ===== DIÁLOGO DE ACCESO ===== -->
+  <dialog id="modalAcceso" class="auth-dialog" aria-labelledby="authTitulo">
+    <div class="auth-box">
+      <div class="auth-head">
+        <button type="button" class="auth-close" id="authCerrar" aria-label="Cerrar">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="auth-logo"><i class="fas fa-sign-in-alt"></i></div>
+        <h2 id="authTitulo">Ingresar al Sistema</h2>
+        <p id="authSubtitulo">Acceso para administrar productos, clientes y proveedores</p>
+      </div>
+
+      <div class="auth-body">
+        <form method="post" action="/login/envio" class="auth-form">
+          <% if (typeof error !== "undefined" && error) { %>
+            <div class="auth-alert error show" role="alert"><%= error %></div>
+          <% } %>
+
+          <div class="auth-field">
+            <label for="login">Usuario</label>
+            <div class="auth-input-wrap">
+              <i class="fas fa-user"></i>
+              <input id="login" type="text" name="login" autocomplete="username"
+                placeholder="Nombre de Usuario" required
+                value="<%= typeof login !== 'undefined' && login ? login : '' %>" />
+            </div>
+          </div>
+
+          <div class="auth-field">
+            <label for="password">Contraseña</label>
+            <div class="auth-input-wrap">
+              <i class="fas fa-lock"></i>
+              <input id="password" type="password" name="password" autocomplete="current-password"
+                placeholder="••••••••" required />
+              <button type="button" class="ojo-btn" data-ver-clave="password" aria-label="Mostrar contraseña">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-auth" id="btnLogin">
+            <i class="fas fa-sign-in-alt"></i> Iniciar sesión
+          </button>
+          <p class="auth-note">El usuario debe existir en la tabla <strong>login</strong> de MySQL.</p>
+        </form>
+      </div>
+    </div>
+  </dialog>
+
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+      const dialog = document.getElementById("modalAcceso");
+      const abrir = () => {
+        if (!dialog.open) {
+          dialog.showModal();
+        }
+      };
+
+      document.querySelectorAll('[data-auth="login"]').forEach((boton) => {
+        boton.addEventListener("click", abrir);
+      });
+
+      document.getElementById("authCerrar").addEventListener("click", () => dialog.close());
+
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) {
+          dialog.close();
+        }
+      });
+
+      document.querySelectorAll("[data-ver-clave]").forEach((boton) => {
+        boton.addEventListener("click", () => {
+          const input = document.getElementById(boton.dataset.verClave);
+          const icono = boton.querySelector("i");
+          const visible = input.type === "text";
+          input.type = visible ? "password" : "text";
+          icono.classList.toggle("fa-eye", visible);
+          icono.classList.toggle("fa-eye-slash", !visible);
+          boton.setAttribute("aria-label", visible ? "Mostrar contraseña" : "Ocultar contraseña");
+        });
+      });
+
+      if (document.body.dataset.abrirLogin === "true") {
+        abrir();
+      }
+    });
+  </script>
+</body>
+
+</html>
