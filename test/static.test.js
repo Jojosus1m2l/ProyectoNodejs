@@ -25,7 +25,7 @@ test("sirve el prototipo en /vacunacion", async () => {
     ["/vacunacion/css/app.css", "text/css"],
     ["/vacunacion/js/app.js", "javascript"],
     ["/vacunacion/js/datos.js", "javascript"],
-    ["/vacunacion/vendor/tailwind-3.4.17.js", "javascript"]
+    ["/vacunacion/vendor/roboto/roboto.css", "text/css"]
   ];
 
   for (const [ruta, tipo] of casos) {
