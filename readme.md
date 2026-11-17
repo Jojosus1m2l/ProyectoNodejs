@@ -23,8 +23,8 @@ npm install
 npm start
 ```
 
+- Interfaz de vacunación: http://localhost:3000/vacunacion (la raíz `/` redirige aquí)
 - Tienda: http://localhost:3000/productos
-- Interfaz de vacunación: http://localhost:3000/vacunacion
 - API: http://localhost:3000/api
 
 ## Pruebas

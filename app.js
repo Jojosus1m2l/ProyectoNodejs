@@ -40,6 +40,10 @@ app.get('/__version', function(req, res) {
   res.type('text/plain').send(BOOT_VERSION);
 });
 
+app.get('/', function(req, res) {
+  res.redirect('/vacunacion');
+});
+
 app.get('/vacunacion', function(req, res) {
   res.redirect('/vacunacion/index.html');
 });
