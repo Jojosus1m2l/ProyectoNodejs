@@ -1,95 +1,39 @@
 const conexion = require("../conexion_vacunas");
+const { consultar, insertar, obtenerUno, ejecutar } = require("./_consultas");
+
+const SELECT_BASE = `select c.id, c.codigo, c.nombre, c.id_ubicacion,
+                        u.estado, u.municipio, u.parroquia,
+                        c.created_at, c.updated_at
+                 from centros c
+                 join ubicaciones u on u.id = c.id_ubicacion`;
 
 module.exports = {
     insertar(codigo, nombre, idUbicacion) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `insert into centros (codigo, nombre, id_ubicacion) values (?, ?, ?)`,
-                [codigo, nombre, idUbicacion],
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados.insertId);
-                }
-            );
-        });
+        return insertar(conexion, `insert into centros (codigo, nombre, id_ubicacion) values (?, ?, ?)`,
+            [codigo, nombre, idUbicacion]);
     },
 
     obtener() {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `select c.id, c.codigo, c.nombre, c.id_ubicacion,
-                        u.estado, u.municipio, u.parroquia,
-                        c.created_at, c.updated_at
-                 from centros c
-                 join ubicaciones u on u.id = c.id_ubicacion
-                 order by c.nombre`,
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados);
-                }
-            );
-        });
+        return consultar(conexion, `${SELECT_BASE}
+                 order by c.nombre`);
     },
 
     obtenerPorId(id) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `select c.id, c.codigo, c.nombre, c.id_ubicacion,
-                        u.estado, u.municipio, u.parroquia,
-                        c.created_at, c.updated_at
-                 from centros c
-                 join ubicaciones u on u.id = c.id_ubicacion
-                 where c.id = ?`,
-                [id],
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados[0]);
-                }
-            );
-        });
+        return obtenerUno(conexion, `${SELECT_BASE}
+                 where c.id = ?`, [id]);
     },
 
     obtenerPorCodigo(codigo) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `select c.id, c.codigo, c.nombre, c.id_ubicacion,
-                        u.estado, u.municipio, u.parroquia,
-                        c.created_at, c.updated_at
-                 from centros c
-                 join ubicaciones u on u.id = c.id_ubicacion
-                 where c.codigo = ?`,
-                [codigo],
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados[0]);
-                }
-            );
-        });
+        return obtenerUno(conexion, `${SELECT_BASE}
+                 where c.codigo = ?`, [codigo]);
     },
 
     actualizar(id, codigo, nombre, idUbicacion) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `update centros set codigo = ?, nombre = ?, id_ubicacion = ? where id = ?`,
-                [codigo, nombre, idUbicacion, id],
-                (err) => {
-                    if (err) reject(err);
-                    else resolve();
-                }
-            );
-        });
+        return ejecutar(conexion, `update centros set codigo = ?, nombre = ?, id_ubicacion = ? where id = ?`,
+            [codigo, nombre, idUbicacion, id]);
     },
 
     eliminar(id) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `delete from centros where id = ?`,
-                [id],
-                (err) => {
-                    if (err) reject(err);
-                    else resolve();
-                }
-            );
-        });
+        return ejecutar(conexion, `delete from centros where id = ?`, [id]);
     }
 };

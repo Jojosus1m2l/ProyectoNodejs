@@ -1,73 +1,35 @@
 const conexion = require("../conexion_vacunas");
+const { consultar, insertar, obtenerUno, ejecutar } = require("./_consultas");
 
 module.exports = {
     insertar(estado, municipio, parroquia) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `insert into ubicaciones (estado, municipio, parroquia) values (?, ?, ?)`,
-                [estado, municipio, parroquia],
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados.insertId);
-                }
-            );
-        });
+        return insertar(conexion, `insert into ubicaciones (estado, municipio, parroquia) values (?, ?, ?)`,
+            [estado, municipio, parroquia]);
     },
 
     obtener() {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `select id, estado, municipio, parroquia, created_at, updated_at
+        return consultar(conexion,
+            `select id, estado, municipio, parroquia, created_at, updated_at
                  from ubicaciones
-                 order by estado, municipio, parroquia`,
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados);
-                }
-            );
-        });
+                 order by estado, municipio, parroquia`);
     },
 
     obtenerPorId(id) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `select id, estado, municipio, parroquia, created_at, updated_at
+        return obtenerUno(conexion,
+            `select id, estado, municipio, parroquia, created_at, updated_at
                  from ubicaciones
-                 where id = ?`,
-                [id],
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados[0]);
-                }
-            );
-        });
+                 where id = ?`, [id]);
     },
 
     actualizar(id, estado, municipio, parroquia) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `update ubicaciones
+        return ejecutar(conexion,
+            `update ubicaciones
                  set estado = ?, municipio = ?, parroquia = ?
                  where id = ?`,
-                [estado, municipio, parroquia, id],
-                (err) => {
-                    if (err) reject(err);
-                    else resolve();
-                }
-            );
-        });
+            [estado, municipio, parroquia, id]);
     },
 
     eliminar(id) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `delete from ubicaciones where id = ?`,
-                [id],
-                (err) => {
-                    if (err) reject(err);
-                    else resolve();
-                }
-            );
-        });
+        return ejecutar(conexion, `delete from ubicaciones where id = ?`, [id]);
     }
 };

@@ -1,55 +1,23 @@
-const conexion = require("../conexion")
+const conexion = require("../conexion");
+const { consultar, insertar, obtenerUno, ejecutar } = require("./_consultas");
 module.exports = {
     insertar(nombre, precio) {
-        return new Promise((resolve, reject) => {
-            conexion.query(`insert into productos (nombre, precio) values (?, ?)`,
-                [nombre, precio], (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados.insertId);
-                });
-        });
+        return insertar(conexion, `insert into productos (nombre, precio) values (?, ?)`, [nombre, precio]);
     },
     obtener() {
-        return new Promise((resolve, reject) => {
-            conexion.query(`select id, nombre, precio from productos`,
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados);
-                });
-        });
+        return consultar(conexion, `select id, nombre, precio from productos`);
     },
     obtenerPorId(id) {
-        return new Promise((resolve, reject) => {
-            conexion.query(`select id, nombre, precio from productos where id = ?`,
-                [id],
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados[0]);
-                });
-        });
+        return obtenerUno(conexion, `select id, nombre, precio from productos where id = ?`, [id]);
     },
     actualizar(id, nombre, precio) {
-        return new Promise((resolve, reject) => {
-            conexion.query(`update productos
+        return ejecutar(conexion, `update productos
             set nombre = ?,
             precio = ?
-            where id = ?`,
-                [nombre, precio, id],
-                (err) => {
-                    if (err) reject(err);
-                    else resolve();
-                });
-        });
+            where id = ?`, [nombre, precio, id]);
     },
     eliminar(id) {
-        return new Promise((resolve, reject) => {
-            conexion.query(`delete from productos
-            where id = ?`,
-                [id],
-                (err) => {
-                    if (err) reject(err);
-                    else resolve();
-                });
-        });
-    },
-}
+        return ejecutar(conexion, `delete from productos
+            where id = ?`, [id]);
+    }
+};

@@ -1,94 +1,49 @@
 const conexion = require("../conexion_vacunas");
+const { consultar, insertar, obtenerUno, ejecutar } = require("./_consultas");
 
 module.exports = {
     insertar(codigo, nombre, descripcion, esquema, fabricante, dosisRequeridas = 1) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `insert into vacunas
+        return insertar(conexion,
+            `insert into vacunas
                    (codigo, nombre, descripcion, esquema, fabricante, dosis_requeridas)
                  values (?, ?, ?, ?, ?, ?)`,
-                [codigo, nombre, descripcion, esquema, fabricante, dosisRequeridas],
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados.insertId);
-                }
-            );
-        });
+            [codigo, nombre, descripcion, esquema, fabricante, dosisRequeridas]);
     },
 
     obtener() {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `select id, codigo, nombre, descripcion, esquema, fabricante,
+        return consultar(conexion,
+            `select id, codigo, nombre, descripcion, esquema, fabricante,
                         dosis_requeridas, created_at, updated_at
                  from vacunas
-                 order by nombre`,
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados);
-                }
-            );
-        });
+                 order by nombre`);
     },
 
     obtenerPorId(id) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `select id, codigo, nombre, descripcion, esquema, fabricante,
+        return obtenerUno(conexion,
+            `select id, codigo, nombre, descripcion, esquema, fabricante,
                         dosis_requeridas, created_at, updated_at
                  from vacunas
-                 where id = ?`,
-                [id],
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados[0]);
-                }
-            );
-        });
+                 where id = ?`, [id]);
     },
 
     obtenerPorCodigo(codigo) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `select id, codigo, nombre, descripcion, esquema, fabricante,
+        return obtenerUno(conexion,
+            `select id, codigo, nombre, descripcion, esquema, fabricante,
                         dosis_requeridas, created_at, updated_at
                  from vacunas
-                 where codigo = ?`,
-                [codigo],
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados[0]);
-                }
-            );
-        });
+                 where codigo = ?`, [codigo]);
     },
 
     actualizar(id, codigo, nombre, descripcion, esquema, fabricante, dosisRequeridas) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `update vacunas
+        return ejecutar(conexion,
+            `update vacunas
                  set codigo = ?, nombre = ?, descripcion = ?, esquema = ?,
                      fabricante = ?, dosis_requeridas = ?
                  where id = ?`,
-                [codigo, nombre, descripcion, esquema, fabricante, dosisRequeridas, id],
-                (err) => {
-                    if (err) reject(err);
-                    else resolve();
-                }
-            );
-        });
+            [codigo, nombre, descripcion, esquema, fabricante, dosisRequeridas, id]);
     },
 
     eliminar(id) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `delete from vacunas where id = ?`,
-                [id],
-                (err) => {
-                    if (err) reject(err);
-                    else resolve();
-                }
-            );
-        });
+        return ejecutar(conexion, `delete from vacunas where id = ?`, [id]);
     }
 };

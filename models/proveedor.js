@@ -1,34 +1,19 @@
-const conexion = require("../conexion")
+const conexion = require("../conexion");
+const { consultar, insertar, obtenerUno, ejecutar } = require("./_consultas");
 module.exports = {
     insertar(rif, empresa, direccion) {
-        return new Promise((resolve, reject) => {
-            conexion.query(`insert into proveedor (rif, empresa, direccion) values (?, ?, ?)`,
-                [rif, empresa, direccion], (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados.insertId);
-                });
-        });
+        return insertar(conexion, `insert into proveedor (rif, empresa, direccion) values (?, ?, ?)`, [rif, empresa, direccion]);
     },
     obtener() {
-        return new Promise((resolve, reject) => {
-            conexion.query(`select id, empresa, direccion, rif from proveedor`,
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados);
-                });
-        });
+        return consultar(conexion, `select id, empresa, direccion, rif from proveedor`);
     },
     obtenerPorId(id) {
-        return new Promise((resolve, reject) => {
-            conexion.query(`select id, empresa, direccion, rif from proveedor where id = ?`,
-                [id],
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados[0]);
-                });
-        });
+        return obtenerUno(conexion, `select id, empresa, direccion, rif from proveedor where id = ?`, [id]);
     },
     actualizar(id, empresa, direccion, rif) {
+        // La lista de parametros esta rota desde antes de este refactor.
+        // Se conserva el envoltorio original para que el error siga siendo
+        // una Promise rechazada y no un throw sincronico.
         return new Promise((resolve, reject) => {
             conexion.query(`update proveedor
             set rif = ?,
@@ -43,14 +28,7 @@ module.exports = {
         });
     },
     eliminar(id) {
-        return new Promise((resolve, reject) => {
-            conexion.query(`delete from proveedor
-            where id = ?`,
-                [id],
-                (err) => {
-                    if (err) reject(err);
-                    else resolve();
-                });
-        });
-    },
-}
+        return ejecutar(conexion, `delete from proveedor
+            where id = ?`, [id]);
+    }
+};

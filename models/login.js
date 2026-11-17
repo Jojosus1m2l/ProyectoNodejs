@@ -1,18 +1,10 @@
-const conexion = require("../conexion")
+const conexion = require("../conexion");
+const { obtenerUno } = require("./_consultas");
 module.exports = {
 
     validar(login, password) {
-        return new Promise((resolve, reject) => {
-           conexion.query(`select login, password from usuarios where (login = ? and password = ?)`,
-                [login, password],
-                (err, resultados) => {
-                    //console.log(sql);
-                    if (err) reject(err);
-                    else
-                    resolve(resultados[0]);
-                });
-        });
+        return obtenerUno(conexion, `select login, password from usuarios where (login = ? and password = ?)`,
+            [login, password]);
     },
 
-}
-
+};

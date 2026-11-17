@@ -1,157 +1,76 @@
 const conexion = require("../conexion_vacunas");
+const { consultar, insertar, obtenerUno, ejecutar } = require("./_consultas");
 
 // passwordHash debe llegar ya cifrado desde utils/password.js.
+
+const SELECT_BASE = `select u.id, u.correo, u.nombre, u.id_centro, c.codigo as centro_codigo,
+                        u.rol, u.estado, u.id_aprobador, u.fecha_aprobacion,
+                        a.correo as aprobador_correo,
+                        u.created_at, u.updated_at
+                 from usuarios u
+                 left join centros c on c.id = u.id_centro
+                 left join usuarios a on a.id = u.id_aprobador`;
+
 module.exports = {
     insertar(correo, nombre, passwordHash, idCentro = null, rol = "centro", estado = "pendiente") {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `insert into usuarios
+        return insertar(conexion,
+            `insert into usuarios
                    (correo, nombre, password_hash, id_centro, rol, estado)
                  values (?, ?, ?, ?, ?, ?)`,
-                [correo, nombre, passwordHash, idCentro, rol, estado],
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados.insertId);
-                }
-            );
-        });
+            [correo, nombre, passwordHash, idCentro, rol, estado]);
     },
 
     obtener() {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `select u.id, u.correo, u.nombre, u.id_centro, c.codigo as centro_codigo,
-                        u.rol, u.estado, u.id_aprobador, u.fecha_aprobacion,
-                        a.correo as aprobador_correo,
-                        u.created_at, u.updated_at
-                 from usuarios u
-                 left join centros c on c.id = u.id_centro
-                 left join usuarios a on a.id = u.id_aprobador
-                 order by u.nombre`,
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados);
-                }
-            );
-        });
+        return consultar(conexion, `${SELECT_BASE}
+                 order by u.nombre`);
     },
 
     obtenerPorEstado(estado) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `select u.id, u.correo, u.nombre, u.id_centro, c.codigo as centro_codigo,
-                        u.rol, u.estado, u.id_aprobador, u.fecha_aprobacion,
-                        a.correo as aprobador_correo,
-                        u.created_at, u.updated_at
-                 from usuarios u
-                 left join centros c on c.id = u.id_centro
-                 left join usuarios a on a.id = u.id_aprobador
+        return consultar(conexion, `${SELECT_BASE}
                  where u.estado = ?
-                 order by u.created_at`,
-                [estado],
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados);
-                }
-            );
-        });
+                 order by u.created_at`, [estado]);
     },
 
     obtenerPorId(id) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `select u.id, u.correo, u.nombre, u.id_centro, c.codigo as centro_codigo,
-                        u.rol, u.estado, u.id_aprobador, u.fecha_aprobacion,
-                        a.correo as aprobador_correo,
-                        u.created_at, u.updated_at
-                 from usuarios u
-                 left join centros c on c.id = u.id_centro
-                 left join usuarios a on a.id = u.id_aprobador
-                 where u.id = ?`,
-                [id],
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados[0]);
-                }
-            );
-        });
+        return obtenerUno(conexion, `${SELECT_BASE}
+                 where u.id = ?`, [id]);
     },
 
     // Solo para autenticacion: incluye el hash.
     obtenerPorCorreo(correo) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `select u.id, u.correo, u.nombre, u.password_hash, u.id_centro,
+        return obtenerUno(conexion,
+            `select u.id, u.correo, u.nombre, u.password_hash, u.id_centro,
                         c.codigo as centro_codigo, u.rol, u.estado, u.id_aprobador,
                         u.fecha_aprobacion, a.correo as aprobador_correo,
                         u.created_at, u.updated_at
                  from usuarios u
                  left join centros c on c.id = u.id_centro
                  left join usuarios a on a.id = u.id_aprobador
-                 where u.correo = ?`,
-                [correo],
-                (err, resultados) => {
-                    if (err) reject(err);
-                    else resolve(resultados[0]);
-                }
-            );
-        });
+                 where u.correo = ?`, [correo]);
     },
 
     actualizar(id, correo, nombre, idCentro, rol) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `update usuarios
+        return ejecutar(conexion,
+            `update usuarios
                  set correo = ?, nombre = ?, id_centro = ?, rol = ?
                  where id = ?`,
-                [correo, nombre, idCentro, rol, id],
-                (err) => {
-                    if (err) reject(err);
-                    else resolve();
-                }
-            );
-        });
+            [correo, nombre, idCentro, rol, id]);
     },
 
     actualizarEstado(id, estado, idAprobador = null) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `update usuarios
+        return ejecutar(conexion,
+            `update usuarios
                  set estado = ?, id_aprobador = ?,
                      fecha_aprobacion = case when ? = 'aprobado' then now() else fecha_aprobacion end
                  where id = ?`,
-                [estado, idAprobador, estado, id],
-                (err) => {
-                    if (err) reject(err);
-                    else resolve();
-                }
-            );
-        });
+            [estado, idAprobador, estado, id]);
     },
 
     actualizarPassword(id, passwordHash) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `update usuarios set password_hash = ? where id = ?`,
-                [passwordHash, id],
-                (err) => {
-                    if (err) reject(err);
-                    else resolve();
-                }
-            );
-        });
+        return ejecutar(conexion, `update usuarios set password_hash = ? where id = ?`, [passwordHash, id]);
     },
 
     eliminar(id) {
-        return new Promise((resolve, reject) => {
-            conexion.query(
-                `delete from usuarios where id = ?`,
-                [id],
-                (err) => {
-                    if (err) reject(err);
-                    else resolve();
-                }
-            );
-        });
+        return ejecutar(conexion, `delete from usuarios where id = ?`, [id]);
     }
 };
