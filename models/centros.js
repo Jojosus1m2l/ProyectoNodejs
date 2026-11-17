@@ -8,7 +8,7 @@ const SELECT_BASE = `select c.id, c.codigo, c.nombre, c.id_ubicacion,
                  join ubicaciones u on u.id = c.id_ubicacion`;
 
 module.exports = {
-    insertar(codigo, nombre, idUbicacion) {
+    insertar({ codigo, nombre, idUbicacion }) {
         return insertar(conexion, `insert into centros (codigo, nombre, id_ubicacion) values (?, ?, ?)`,
             [codigo, nombre, idUbicacion]);
     },
@@ -28,7 +28,7 @@ module.exports = {
                  where c.codigo = ?`, [codigo]);
     },
 
-    actualizar(id, codigo, nombre, idUbicacion) {
+    actualizar({ id, codigo, nombre, idUbicacion }) {
         return ejecutar(conexion, `update centros set codigo = ?, nombre = ?, id_ubicacion = ? where id = ?`,
             [codigo, nombre, idUbicacion, id]);
     },

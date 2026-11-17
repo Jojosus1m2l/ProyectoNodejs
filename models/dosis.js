@@ -26,8 +26,8 @@ const SELECT_BASE = `
     left join usuarios val on val.id = d.id_validador`;
 
 module.exports = {
-    insertar(idPersona, idVacuna, idCentro, idUsuario, numeroDosis, etiquetaDosis,
-             lote, fecha, observaciones) {
+    insertar({ idPersona, idVacuna, idCentro, idUsuario, numeroDosis, etiquetaDosis,
+             lote, fecha, observaciones }) {
         return insertar(conexion,
             `insert into dosis
                    (id_persona, id_vacuna, id_centro, id_usuario, numero_dosis,
@@ -88,8 +88,8 @@ module.exports = {
             [idValidador, id]);
     },
 
-    actualizar(id, idPersona, idVacuna, idCentro, idUsuario, numeroDosis,
-               etiquetaDosis, lote, fecha, observaciones) {
+    actualizar({ id, idPersona, idVacuna, idCentro, idUsuario, numeroDosis,
+               etiquetaDosis, lote, fecha, observaciones }) {
         return ejecutar(conexion,
             `update dosis
                  set id_persona = ?, id_vacuna = ?, id_centro = ?, id_usuario = ?,

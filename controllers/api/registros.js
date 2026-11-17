@@ -100,11 +100,20 @@ async function resolverRepresentante(datos) {
         if (existente) return existente.id;
     }
 
-    return personas.insertar(
-        nombre, null, apellido, null,
-        null, null, cedula || null,
-        texto(datos.telefono) || null, null, null, null, null
-    );
+    return personas.insertar({
+        nombre1: nombre,
+        nombre2: null,
+        apellido1: apellido,
+        apellido2: null,
+        fechaNacimiento: null,
+        sexo: null,
+        cedula: cedula || null,
+        telefonoPersonal: texto(datos.telefono) || null,
+        telefonoCasa: null,
+        correo: null,
+        rif: null,
+        idRepresentante: null
+    });
 }
 
 router.post("/", asyncHandler(async (req, res) => {
@@ -192,19 +201,36 @@ router.post("/", asyncHandler(async (req, res) => {
             ? await resolverRepresentante(representante)
             : null;
 
-        const idPersona = await personas.insertar(
-            primerNombre, segundoNombre || null, primerApellido, segundoApellido || null,
-            fechaNacimiento, sexo, cedula, telefono, null, correo, null, idRepresentante
-        );
+        const idPersona = await personas.insertar({
+            nombre1: primerNombre,
+            nombre2: segundoNombre || null,
+            apellido1: primerApellido,
+            apellido2: segundoApellido || null,
+            fechaNacimiento,
+            sexo,
+            cedula,
+            telefonoPersonal: telefono,
+            telefonoCasa: null,
+            correo,
+            rif: null,
+            idRepresentante
+        });
         persona = { id: idPersona };
     }
 
     let idDosis;
     try {
-        idDosis = await dosis.insertar(
-            persona.id, vacuna.id, idCentro, usuario.id,
-            etiqueta.orden, etiqueta.etiqueta, lote, fechaAplicacion, observaciones
-        );
+        idDosis = await dosis.insertar({
+            idPersona: persona.id,
+            idVacuna: vacuna.id,
+            idCentro,
+            idUsuario: usuario.id,
+            numeroDosis: etiqueta.orden,
+            etiquetaDosis: etiqueta.etiqueta,
+            lote,
+            fecha: fechaAplicacion,
+            observaciones
+        });
     } catch (err) {
         if (err.code === "ER_DUP_ENTRY") {
             return res.status(409).json({

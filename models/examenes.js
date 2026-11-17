@@ -2,7 +2,7 @@ const conexion = require("../conexion_vacunas");
 const { consultar, insertar, obtenerUno, ejecutar } = require("./_consultas");
 
 module.exports = {
-    insertar(idPersona, nombreExamen, fechaCarga, resultado, archivo) {
+    insertar({ idPersona, nombreExamen, fechaCarga, resultado, archivo }) {
         return insertar(conexion,
             `insert into examenes
                    (id_persona, nombre_examen, fecha_carga, resultado, archivo)
@@ -40,7 +40,7 @@ module.exports = {
                  order by fecha_carga desc, id desc`, [idPersona]);
     },
 
-    actualizar(id, idPersona, nombreExamen, fechaCarga, resultado, archivo) {
+    actualizar({ id, idPersona, nombreExamen, fechaCarga, resultado, archivo }) {
         return ejecutar(conexion,
             `update examenes
                  set id_persona = ?, nombre_examen = ?, fecha_carga = ?,

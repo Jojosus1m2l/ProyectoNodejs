@@ -61,10 +61,14 @@ before(async () => {
   await seedDemo();
 
   const calabozo = await centros.obtenerPorCodigo("hospital-calabozo");
-  await usuarios.insertar(
-    "centro2@test.com", "Centro Calabozo",
-    await hashPassword("Centro2-2026"), calabozo.id, "centro", "aprobado"
-  );
+  await usuarios.insertar({
+    correo: "centro2@test.com",
+    nombre: "Centro Calabozo",
+    passwordHash: await hashPassword("Centro2-2026"),
+    idCentro: calabozo.id,
+    rol: "centro",
+    estado: "aprobado"
+  });
 
   const app = require("../app");
   const started = await startServer(app);

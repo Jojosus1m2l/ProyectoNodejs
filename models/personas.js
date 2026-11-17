@@ -5,8 +5,8 @@ const { consultar, insertar, obtenerUno, ejecutar } = require("./_consultas");
 // idRepresentante = null  -> persona adulta/independiente.
 // idRepresentante = id    -> dependiente de ese representante.
 module.exports = {
-    insertar(nombre1, nombre2, apellido1, apellido2, fechaNacimiento, sexo, cedula,
-             telefonoPersonal, telefonoCasa, correo, rif, idRepresentante) {
+    insertar({ nombre1, nombre2, apellido1, apellido2, fechaNacimiento, sexo, cedula,
+             telefonoPersonal, telefonoCasa, correo, rif, idRepresentante }) {
         return insertar(conexion,
             `insert into personas
                    (nombre1, nombre2, apellido1, apellido2, fecha_nacimiento, sexo,
@@ -72,8 +72,8 @@ module.exports = {
                  order by apellido1, nombre1`, [idRepresentante]);
     },
 
-    actualizar(id, nombre1, nombre2, apellido1, apellido2, fechaNacimiento, sexo, cedula,
-               telefonoPersonal, telefonoCasa, correo, rif, idRepresentante) {
+    actualizar({ id, nombre1, nombre2, apellido1, apellido2, fechaNacimiento, sexo, cedula,
+               telefonoPersonal, telefonoCasa, correo, rif, idRepresentante }) {
         return ejecutar(conexion,
             `update personas
                  set nombre1 = ?, nombre2 = ?, apellido1 = ?, apellido2 = ?,

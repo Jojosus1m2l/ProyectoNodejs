@@ -64,7 +64,7 @@ router.post("/solicitud", asyncHandler(async (req, res) => {
     }
 
     const passwordHash = await hashPassword(password);
-    const id = await usuarios.insertar(correo, nombre, passwordHash, idCentro, rol, "pendiente");
+    const id = await usuarios.insertar({ correo, nombre, passwordHash, idCentro, rol, estado: "pendiente" });
     const creado = await usuarios.obtenerPorId(id);
     res.status(201).json(publicUser(creado));
 }));

@@ -16,8 +16,8 @@ const SELECT_BASE = `select c.id, c.codigo, c.id_dosis, c.id_examen, c.id_usuari
                  join centros ce on ce.id = d.id_centro`;
 
 module.exports = {
-    insertar(codigo, idDosis, idExamen, idUsuario, fechaExpedicion, fechaVencimiento,
-             nombreCompleto, cedula, nombreVacuna, fechaAplicacion) {
+    insertar({ codigo, idDosis, idExamen, idUsuario, fechaExpedicion, fechaVencimiento,
+             nombreCompleto, cedula, nombreVacuna, fechaAplicacion }) {
         return insertar(conexion,
             `insert into certificados
                    (codigo, id_dosis, id_examen, id_usuario, fecha_expedicion,
@@ -55,8 +55,8 @@ module.exports = {
     },
 
     // Solo para correcciones administrativas. El snapshot no deberia variar.
-    actualizar(id, codigo, idDosis, idExamen, idUsuario, fechaExpedicion,
-               fechaVencimiento, nombreCompleto, cedula, nombreVacuna, fechaAplicacion) {
+    actualizar({ id, codigo, idDosis, idExamen, idUsuario, fechaExpedicion,
+               fechaVencimiento, nombreCompleto, cedula, nombreVacuna, fechaAplicacion }) {
         return ejecutar(conexion,
             `update certificados
                  set codigo = ?, id_dosis = ?, id_examen = ?, id_usuario = ?,

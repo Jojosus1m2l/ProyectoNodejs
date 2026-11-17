@@ -2,7 +2,7 @@ const conexion = require("../conexion_vacunas");
 const { consultar, insertar, obtenerUno, ejecutar } = require("./_consultas");
 
 module.exports = {
-    insertar(codigo, nombre, descripcion, esquema, fabricante, dosisRequeridas = 1) {
+    insertar({ codigo, nombre, descripcion, esquema, fabricante, dosisRequeridas = 1 }) {
         return insertar(conexion,
             `insert into vacunas
                    (codigo, nombre, descripcion, esquema, fabricante, dosis_requeridas)
@@ -34,7 +34,7 @@ module.exports = {
                  where codigo = ?`, [codigo]);
     },
 
-    actualizar(id, codigo, nombre, descripcion, esquema, fabricante, dosisRequeridas) {
+    actualizar({ id, codigo, nombre, descripcion, esquema, fabricante, dosisRequeridas }) {
         return ejecutar(conexion,
             `update vacunas
                  set codigo = ?, nombre = ?, descripcion = ?, esquema = ?,

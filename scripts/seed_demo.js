@@ -41,11 +41,11 @@ async function seedDemo() {
         const existente = await usuarios.obtenerPorCorreo(demo.correo);
 
         if (existente) {
-            await usuarios.actualizar(existente.id, demo.correo, demo.nombre, idCentro, demo.rol);
+            await usuarios.actualizar({ id: existente.id, correo: demo.correo, nombre: demo.nombre, idCentro, rol: demo.rol });
             await usuarios.actualizarEstado(existente.id, "aprobado", null);
             await usuarios.actualizarPassword(existente.id, hash);
         } else {
-            await usuarios.insertar(demo.correo, demo.nombre, hash, idCentro, demo.rol, "aprobado");
+            await usuarios.insertar({ correo: demo.correo, nombre: demo.nombre, passwordHash: hash, idCentro, rol: demo.rol, estado: "aprobado" });
         }
     }
 }

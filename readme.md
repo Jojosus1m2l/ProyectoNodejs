@@ -1,9 +1,6 @@
-# MySQL y Node · SISALUD Guárico
+# SISALUD Guárico · Registro de vacunación
 
-Proyecto Express + MySQL con dos partes:
-
-- **Tienda**: el CRUD original (`/productos`, `/clientes`, `/proveedor`).
-- **Vacunación**: API JSON (`/api`) y la interfaz del prototipo servida en `/vacunacion`, conectada a MySQL con roles `centro`, `revisor` y `master`.
+Sistema de vacunación con Express, MySQL y una interfaz estática servida por el propio servidor. Incluye API JSON, modelos por tabla y control de acceso por roles (`centro`, `revisor`, `master`).
 
 ## Instalar dependencias
 
@@ -13,9 +10,9 @@ npm install
 
 ## Base de datos
 
-- Tienda: crea la base `tienda` e importa `esquema.sql`.
-- Vacunación: crea la base `db_vacunas` e importa `db_vacunas.sql`. La conexión se configura con `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` y `DB_NAME` (por defecto `db_vacunas`).
-- Datos de catálogos y usuarios demo: `node scripts/seed_demo.js` (revisa el script para ver las credenciales de prueba).
+Crea la base `db_vacunas` e importa `db_vacunas.sql`. La conexión se configura con `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` y `DB_NAME` (por defecto `db_vacunas`).
+
+Para cargar catálogos y usuarios de prueba: `node scripts/seed_demo.js` (revisa el script para ver las credenciales demo).
 
 ## Ejecutar
 
@@ -23,8 +20,7 @@ npm install
 npm start
 ```
 
-- Interfaz de vacunación: http://localhost:3000/vacunacion (la raíz `/` redirige aquí)
-- Tienda: http://localhost:3000/productos
+- Interfaz: http://localhost:3000/vacunacion (la raíz `/` redirige aquí)
 - API: http://localhost:3000/api
 
 ## Pruebas

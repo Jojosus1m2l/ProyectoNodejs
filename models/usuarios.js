@@ -12,7 +12,7 @@ const SELECT_BASE = `select u.id, u.correo, u.nombre, u.id_centro, c.codigo as c
                  left join usuarios a on a.id = u.id_aprobador`;
 
 module.exports = {
-    insertar(correo, nombre, passwordHash, idCentro = null, rol = "centro", estado = "pendiente") {
+    insertar({ correo, nombre, passwordHash, idCentro = null, rol = "centro", estado = "pendiente" }) {
         return insertar(conexion,
             `insert into usuarios
                    (correo, nombre, password_hash, id_centro, rol, estado)
@@ -49,7 +49,7 @@ module.exports = {
                  where u.correo = ?`, [correo]);
     },
 
-    actualizar(id, correo, nombre, idCentro, rol) {
+    actualizar({ id, correo, nombre, idCentro, rol }) {
         return ejecutar(conexion,
             `update usuarios
                  set correo = ?, nombre = ?, id_centro = ?, rol = ?

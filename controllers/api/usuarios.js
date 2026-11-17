@@ -64,7 +64,7 @@ router.patch("/:id/aprobar", asyncHandler(async (req, res) => {
         idCentro = centro.id;
     }
 
-    await usuarios.actualizar(fila.id, fila.correo, fila.nombre, idCentro, rol);
+    await usuarios.actualizar({ id: fila.id, correo: fila.correo, nombre: fila.nombre, idCentro, rol });
     await usuarios.actualizarEstado(fila.id, "aprobado", sessionUser(req).id);
 
     res.json(publicUser(await usuarios.obtenerPorId(fila.id)));

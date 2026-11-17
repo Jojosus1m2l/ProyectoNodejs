@@ -2,7 +2,7 @@ const conexion = require("../conexion_vacunas");
 const { consultar, insertar, obtenerUno, ejecutar } = require("./_consultas");
 
 module.exports = {
-    insertar(estado, municipio, parroquia) {
+    insertar({ estado, municipio, parroquia }) {
         return insertar(conexion, `insert into ubicaciones (estado, municipio, parroquia) values (?, ?, ?)`,
             [estado, municipio, parroquia]);
     },
@@ -21,7 +21,7 @@ module.exports = {
                  where id = ?`, [id]);
     },
 
-    actualizar(id, estado, municipio, parroquia) {
+    actualizar({ id, estado, municipio, parroquia }) {
         return ejecutar(conexion,
             `update ubicaciones
                  set estado = ?, municipio = ?, parroquia = ?
